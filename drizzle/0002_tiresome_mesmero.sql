@@ -1,0 +1,1 @@
+ALTER TABLE `payers` MODIFY COLUMN `lgaId` int;
