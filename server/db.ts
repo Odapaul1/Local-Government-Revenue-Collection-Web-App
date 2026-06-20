@@ -96,6 +96,16 @@ export async function upsertUser(user: InsertUser): Promise<void> {
       updateSet.role = "Super Admin";
     }
 
+    if (user.lgaId !== undefined) {
+      values.lgaId = user.lgaId;
+      updateSet.lgaId = user.lgaId;
+    }
+    
+    if (user.isActive !== undefined) {
+      values.isActive = user.isActive;
+      updateSet.isActive = user.isActive;
+    }
+
     if (!values.lastSignedIn) {
       values.lastSignedIn = new Date();
     }

@@ -33,8 +33,8 @@ async function startServer() {
   const app = express();
   const server = createServer(app);
 
-  // Trust first proxy (for correct IP behind nginx/load balancers)
-  app.set("trust proxy", 1);
+  // Trust all proxies (for correct IP behind nginx/load balancers like Render)
+  app.set("trust proxy", true);
 
   // Security headers
   app.use((_req, res, next) => {
