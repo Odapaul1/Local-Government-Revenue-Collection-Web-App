@@ -9,7 +9,7 @@ export const users = mysqlTable("users", {
   openId: varchar("openId", { length: 64 }).notNull().unique(),
   name: text("name"),
   email: varchar("email", { length: 320 }).unique(),
-  password: varchar("password", { length: 255 }),
+  password: varchar("password", { length: 255 }), // Hashed with scrypt for email/password login
   loginMethod: varchar("loginMethod", { length: 64 }),
   role: mysqlEnum("role", ["Super Admin", "LGA Admin", "Revenue Collector", "Auditor"]).default("Revenue Collector").notNull(),
   lgaId: int("lgaId"), // NULL for Super Admin, set for LGA Admin and Revenue Collector

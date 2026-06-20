@@ -162,6 +162,23 @@ export async function updateUser(id: number, data: Partial<InsertUser>) {
   return db.update(users).set(data).where(eq(users.id, id));
 }
 
+export async function setUserPassword(id: number, passwordHash: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  return db.update(users).set({ password: passwordHash } as any).where(eq(users.id, id));
+}
+
+export async function hasSuperAdmin(): Promise<boolean> {
+  const db = await getDb();
+  if (!db) return false;
+  const result = await db
+    .select({ id: users.id })
+    .from(users)
+    .where(eq(users.role, "Super Admin"))
+    .limit(1);
+  return result.length > 0;
+}
+
 /**
  * LGA Queries
  */

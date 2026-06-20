@@ -1,0 +1,58 @@
+services:
+  - type: web
+    name: lg-revenue-collection
+    runtime: node
+    region: frankfurt  # Closest to Nigeria; change to ohio if needed
+    plan: free
+
+    # Render reads these to know how to build and start the app
+    buildCommand: npm install -g pnpm && pnpm install && pnpm build
+    startCommand: pnpm start
+
+    # Auto-deploy whenever you push to the main branch
+    autoDeploy: true
+
+    envVars:
+      # ── App ─────────────────────────────────────────────────────────────
+      - key: NODE_ENV
+        value: production
+
+      - key: PORT
+        value: 3000
+
+      # A non-empty string is required even for email-auth mode
+      - key: VITE_APP_ID
+        value: lg-revenue
+
+      # ── Auth ────────────────────────────────────────────────────────────
+      # Generate a strong random secret: openssl rand -hex 32
+      - key: JWT_SECRET
+        sync: false   # You will paste this in the Render dashboard
+
+      # Not used for email auth; set to any placeholder
+      - key: VITE_OAUTH_PORTAL_URL
+        value: disabled
+
+      - key: OAUTH_SERVER_URL
+        value: disabled
+
+      # openId of the initial Super Admin (set to any unique string, e.g. your email)
+      - key: OWNER_OPEN_ID
+        sync: false
+
+      # ── Database ─────────────────────────────────────────────────────────
+      # Paste your TiDB Cloud / PlanetScale / any MySQL connection string
+      - key: DATABASE_URL
+        sync: false
+
+      # ── Email (optional — leave blank to disable) ─────────────────────
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+      - key: SMTP_FROM
+        value: noreply@lg-revenue.gov.ng

@@ -95,7 +95,7 @@ export const appRouter = router({
    * LGA Management
    */
   lga: router({
-    list: protectedProcedure.query(async () => {
+    list: publicProcedure.query(async () => {
       return db.getAllLGAs();
     }),
     getById: protectedProcedure
